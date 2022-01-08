@@ -1,4 +1,4 @@
-package conf
+package wechat
 
 import (
 	"bytes"
@@ -8,22 +8,22 @@ import (
 	"github.com/spf13/viper"
 )
 
-//WeChatConfiguration ...
-type WeChatConfiguration struct {
-	Official    WeChatOfficialConfiguration    `mapstructure:"official" json:"official"`
-	MiniProgram WeChatMiniProgramConfiguration `mapstructure:"miniprogram" json:"miniprogram"`
+//Configuration ...
+type Configuration struct {
+	Official    OfficialConfiguration    `mapstructure:"official" json:"official"`
+	MiniProgram MiniProgramConfiguration `mapstructure:"miniprogram" json:"miniprogram"`
 }
 
-//WeChatOfficialConfiguration ...
-type WeChatOfficialConfiguration struct {
+//OfficialConfiguration ...
+type OfficialConfiguration struct {
 	AppId              string                                        `mapstructure:"app-id" json:"appId"`
 	AppSecret          string                                        `mapstructure:"app-secret" json:"appSecret"`
 	Encoding           string                                        `mapstructure:"encoding" json:"encoding"`
-	TplMessageCronTask WeChatOfficialTplMessageCronTaskConfiguration `mapstructure:"tpl-message-cron-task" json:"tplMessageCronTask"`
+	TplMessageCronTask OfficialTplMessageCronTaskConfiguration `mapstructure:"tpl-message-cron-task" json:"tplMessageCronTask"`
 }
 
-//WeChatOfficialTplMessageCronTaskConfiguration ...
-type WeChatOfficialTplMessageCronTaskConfiguration struct {
+//OfficialTplMessageCronTaskConfiguration ...
+type OfficialTplMessageCronTaskConfiguration struct {
 	Expr                string `mapstructure:"expr" json:"expr"`
 	Users               string `mapstructure:"users" json:"users"`
 	TemplateId          string `mapstructure:"template-id" json:"templateId"`
@@ -31,15 +31,15 @@ type WeChatOfficialTplMessageCronTaskConfiguration struct {
 	MiniProgramPagePath string `mapstructure:"mini-program-page-path" json:"miniProgramPagePath"`
 }
 
-//WeChatMiniProgramConfiguration ...
-type WeChatMiniProgramConfiguration struct {
+//MiniProgramConfiguration ...
+type MiniProgramConfiguration struct {
 	AppId     string `mapstructure:"app-id" json:"appId"`
 	AppSecret string `mapstructure:"app-secret" json:"appSecret"`
 	Encoding  string `mapstructure:"encoding" json:"encoding"`
 }
 
 var (
-	WechatConf WeChatConfiguration
+	Conf Configuration
 )
 
 const (
@@ -58,10 +58,10 @@ func init() {
 		v.SetDefault(index, setting)
 	}
 	// 转换为结构体
-	if err := v.Unmarshal(&WechatConf); err != nil {
-		panic(fmt.Sprintf("初始化配置文件失败: %v, wechat configure: %s", err, WechatConf))
+	if err := v.Unmarshal(&Conf); err != nil {
+		panic(fmt.Sprintf("初始化配置文件失败: %v, wechat configure: %s", err, Conf))
 	}
-	fmt.Println("初始化配置文件完成, wechat configure: ", WechatConf)
+	fmt.Println("初始化配置文件完成, wechat configure: ", Conf)
 }
 
 func readConfig(v *viper.Viper, configFile string) {
