@@ -1,0 +1,30 @@
+# 微信公众号配置
+official:
+  # 公众号id
+  app-id: wx19bdc25d87d4d629
+  # 公众号密钥
+  app-secret: ea63af0188423cbfc9b7f70f5df0d318
+  # 加密key(不为空时, 传输数据会使用aes加密, 建议填写)
+  encoding: baiyeth
+  # 模板消息定时任务
+  tpl-message-cron-task:
+    # 表达式
+    expr: ''
+    # 接收人微信列表
+    users: xxx
+    # 模板id
+    template-id: xxx
+    # 小程序app-id
+    mini-program-app-id: xxx
+    # 小程序页面路径
+    mini-program-page-path: pages/index/index
+# 微信小程序配置
+miniprogram:
+  # 公众号id
+  app-id: wx19bdc25d87d4d629
+  # 公众号密钥
+  app-secret: ea63af0188423cbfc9b7f70f5df0d318
+  # 加密key(不为空时, 传输数据会使用aes加密, 建议填写)
+  encoding: baiyeth
+
+
