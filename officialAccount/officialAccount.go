@@ -1,12 +1,14 @@
-package wechat
+package officialAccount
 
 import (
 	"context"
-	
+
 	"github.com/silenceper/wechat/v2"
 	"github.com/silenceper/wechat/v2/cache"
 	"github.com/silenceper/wechat/v2/officialaccount"
 	"github.com/silenceper/wechat/v2/officialaccount/config"
+
+	wechat2 "github.com/baiyeth/wechat"
 )
 
 type OfficialAccount struct {
@@ -24,7 +26,7 @@ func NewOfficialAccount(ctx context.Context) OfficialAccount {
 	}
 }
 
-func (oc *OfficialAccount )GetOfficialAccount() *officialaccount.OfficialAccount {
+func (oc *OfficialAccount) GetOfficialAccount() *officialaccount.OfficialAccount {
 	return oc.oc
 }
 
@@ -33,9 +35,9 @@ func getOfficialAccount() *officialaccount.OfficialAccount {
 	wc := wechat.NewWechat()
 	cacheIns := cache.NewMemory()
 	cfg := &config.Config{
-		AppID:          Conf.Official.AppId,
-		AppSecret:      Conf.Official.AppSecret,
-		EncodingAESKey: Conf.Official.Encoding,
+		AppID:          wechat2.Conf.Official.AppId,
+		AppSecret:      wechat2.Conf.Official.AppSecret,
+		EncodingAESKey: wechat2.Conf.Official.Encoding,
 		Cache:          cacheIns,
 	}
 	return wc.GetOfficialAccount(cfg)

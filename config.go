@@ -16,9 +16,9 @@ type Configuration struct {
 
 //OfficialConfiguration ...
 type OfficialConfiguration struct {
-	AppId              string                                        `mapstructure:"app-id" json:"appId"`
-	AppSecret          string                                        `mapstructure:"app-secret" json:"appSecret"`
-	Encoding           string                                        `mapstructure:"encoding" json:"encoding"`
+	AppId              string                                  `mapstructure:"app-id" json:"appId"`
+	AppSecret          string                                  `mapstructure:"app-secret" json:"appSecret"`
+	Encoding           string                                  `mapstructure:"encoding" json:"encoding"`
 	TplMessageCronTask OfficialTplMessageCronTaskConfiguration `mapstructure:"tpl-message-cron-task" json:"tplMessageCronTask"`
 }
 
@@ -43,13 +43,12 @@ var (
 )
 
 const (
-	configType   = "yml"
-	wechatConfig = "../conf/wechat.yml"
+	configType = "yml"
 )
 
-// Config 初始化配置文件
-func init() {
-	// 获取viper实例(可创建多实例读取多个配置文件, 这里不做演示)
+// InitConfig 初始化配置文件
+func InitConfig(wechatConfig string) Configuration {
+	var conf Configuration
 	v := viper.New()
 	readConfig(v, wechatConfig)
 	// 将default中的配置全部以默认配置写入
@@ -58,10 +57,12 @@ func init() {
 		v.SetDefault(index, setting)
 	}
 	// 转换为结构体
-	if err := v.Unmarshal(&Conf); err != nil {
+	if err := v.Unmarshal(&conf); err != nil {
 		panic(fmt.Sprintf("初始化配置文件失败: %v, wechat configure: %s", err, Conf))
 	}
-	fmt.Println("初始化配置文件完成, wechat configure: ", Conf)
+
+	fmt.Println("初始化配置文件完成, wechat configure: ", conf)
+	return conf
 }
 
 func readConfig(v *viper.Viper, configFile string) {

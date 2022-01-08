@@ -1,15 +1,15 @@
-package wechat_test
+package officialAccount_test
 
 import (
 	"context"
 	"fmt"
 	"testing"
 	"time"
-	
+
 	"github.com/silenceper/wechat/v2/officialaccount/message"
-	
+
 	byWechat "github.com/baiyeth/wechat"
-	wechat "github.com/baiyeth/wechat/officialAccount"
+	"github.com/baiyeth/wechat/officialAccount"
 )
 
 func TestSendTplMessage(t *testing.T) {
@@ -37,7 +37,7 @@ func TestSendTplMessage(t *testing.T) {
 	}
 	msg.MiniProgram.AppID = byWechat.Conf.Official.TplMessageCronTask.MiniProgramAppId
 	msg.MiniProgram.PagePath = byWechat.Conf.Official.TplMessageCronTask.MiniProgramPagePath
-	tm := wechat.NewTemplateMessage(context.Background())
+	tm := officialAccount.NewTemplateMessage(context.Background())
 	err := tm.SendTplMessage(&msg)
 	fmt.Println(err)
 }

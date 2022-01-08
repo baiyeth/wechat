@@ -1,22 +1,16 @@
-package wechat
+package miniProgram
 
 import (
-	"context"
-
 	"github.com/silenceper/wechat/v2/miniprogram/werun"
-	
-	"github.com/baiyeth/wechat"
 )
 
 // Werun 微信小程序相关API
 type Werun struct {
-	wechat.MiniProgram
+	*MiniProgram
 }
 
-func NewWerun(ctx context.Context) *Werun {
-	return &Werun{
-		wechat.NewMiniProgram(ctx),
-	}
+func NewWerun(mp *MiniProgram) *Werun {
+	return &Werun{mp}
 }
 
 func (wr *Werun) GetWeRunData(sessionKey, encryptedData, iv string) (*werun.Data, error) {

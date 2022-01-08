@@ -1,11 +1,8 @@
-package wechat_test
+package miniProgram_test
 
 import (
-	"context"
 	"fmt"
 	"testing"
-
-	wechat "github.com/baiyeth/wechat/miniprogram"
 )
 
 func TestGetWeRunData(t *testing.T) {
@@ -13,7 +10,7 @@ func TestGetWeRunData(t *testing.T) {
 	sessionKey := ""
 	encryptedData := ""
 	iv := ""
-	wr := wechat.NewWerun(context.Background())
+	wr := miniapp.GetWerun()
 	data, err := wr.GetWeRunData(sessionKey, encryptedData, iv)
 	fmt.Print(data, err)
 }

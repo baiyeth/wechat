@@ -1,20 +1,12 @@
-package wechat
-
-import (
-	"context"
-	
-	"github.com/baiyeth/wechat"
-)
+package miniProgram
 
 // Content 微信小程序相关API
 type Content struct {
-	wechat.MiniProgram
+	*MiniProgram
 }
 
-func NewContent(ctx context.Context) *Content {
-	return &Content{
-		wechat.NewMiniProgram(ctx),
-	}
+func NewContent(mp *MiniProgram) *Content {
+	return &Content{mp}
 }
 
 func (c *Content) CheckText(text string) (err error) {

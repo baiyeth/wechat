@@ -1,22 +1,16 @@
-package wechat
+package miniProgram
 
 import (
-	"context"
-
 	"github.com/silenceper/wechat/v2/miniprogram/analysis"
-	
-	"github.com/baiyeth/wechat"
 )
 
 // Analysis 微信小程序相关API
 type Analysis struct {
-	wechat.MiniProgram
+	*MiniProgram
 }
 
-func NewAnalysis(ctx context.Context) *Analysis {
-	return &Analysis{
-		wechat.NewMiniProgram(ctx),
-	}
+func NewAnalysis(mp *MiniProgram) *Analysis {
+	return &Analysis{mp}
 }
 
 func (a *Analysis) GetAnalysisDailyRetain(beginDate, endDate string) (result analysis.ResAnalysisRetain, err error) {

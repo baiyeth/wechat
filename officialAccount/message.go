@@ -1,20 +1,18 @@
-package wechat
+package officialAccount
 
 import (
 	"context"
 
 	"github.com/silenceper/wechat/v2/officialaccount/message"
-	
-	"github.com/baiyeth/wechat"
 )
 
 type TemplateMessage struct {
-	wechat.OfficialAccount
+	OfficialAccount
 }
 
 func NewTemplateMessage(ctx context.Context) *TemplateMessage {
 	return &TemplateMessage{
-		wechat.NewOfficialAccount(ctx),
+		NewOfficialAccount(ctx),
 	}
 }
 

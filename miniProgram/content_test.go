@@ -1,15 +1,12 @@
-package wechat_test
+package miniProgram_test
 
 import (
-	"context"
 	"fmt"
 	"testing"
-
-	wechat "github.com/baiyeth/wechat/miniprogram"
 )
 
 var (
-	content = wechat.NewContent(context.Background())
+	content = miniapp.GetContent()
 )
 
 func TestCheckText(t *testing.T) {

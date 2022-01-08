@@ -1,22 +1,16 @@
-package wechat
+package miniProgram
 
 import (
-	"context"
-
 	"github.com/silenceper/wechat/v2/miniprogram/subscribe"
-	
-	"github.com/baiyeth/wechat"
 )
 
 // Subscribe 微信小程序相关API
 type Subscribe struct {
-	wechat.MiniProgram
+	*MiniProgram
 }
 
-func NewSubscribe(ctx context.Context) *Subscribe {
-	return &Subscribe{
-		wechat.NewMiniProgram(ctx),
-	}
+func NewSubscribe(mp *MiniProgram) *Subscribe {
+	return &Subscribe{mp}
 }
 
 func (sb *Subscribe) Send(msg *subscribe.Message) (err error) {

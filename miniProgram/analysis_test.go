@@ -1,15 +1,12 @@
-package wechat_test
+package miniProgram_test
 
 import (
-	"context"
 	"fmt"
 	"testing"
-
-	wechat "github.com/baiyeth/wechat/miniprogram"
 )
 
 var (
-	an = wechat.NewAnalysis(context.Background())
+	an = miniapp.GetAnalysis()
 )
 
 func TestGetAnalysisDailyRetain(t *testing.T) {

@@ -1,22 +1,16 @@
-package wechat
+package miniProgram
 
 import (
-	"context"
-
 	"github.com/silenceper/wechat/v2/miniprogram/qrcode"
-	
-	"github.com/baiyeth/wechat"
 )
 
 // Qrcode 微信小程序相关API
 type Qrcode struct {
-	wechat.MiniProgram
+	*MiniProgram
 }
 
-func NewQrcode(ctx context.Context) *Qrcode {
-	return &Qrcode{
-		wechat.NewMiniProgram(ctx),
-	}
+func NewQrcode(mp *MiniProgram) *Qrcode {
+	return &Qrcode{mp}
 }
 
 func (qr *Qrcode) CreateWXAQRCode(page, path string, w int) (response []byte, err error) {

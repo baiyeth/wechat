@@ -1,18 +1,15 @@
-package wechat_test
+package miniProgram_test
 
 import (
-	"context"
 	"fmt"
 	"testing"
-
-	wechat "github.com/baiyeth/wechat/miniprogram"
 )
 
 var (
 	page = "/page/index/index"
 	path = "/page/index/index"
 	w    = 144
-	qr   = wechat.NewQrcode(context.Background())
+	qr   = miniapp.GetQrcode()
 )
 
 func TestCreateWXAQRCode(t *testing.T) {

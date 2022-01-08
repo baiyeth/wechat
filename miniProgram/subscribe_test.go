@@ -1,13 +1,10 @@
-package wechat_test
+package miniProgram_test
 
 import (
-	"context"
 	"fmt"
 	"testing"
 
 	"github.com/silenceper/wechat/v2/miniprogram/subscribe"
-
-	wechat "github.com/baiyeth/wechat/miniprogram"
 )
 
 func TestSend(t *testing.T) {
@@ -20,7 +17,7 @@ func TestSend(t *testing.T) {
 		MiniprogramState: "",
 		Lang:             "",
 	}
-	sb := wechat.NewSubscribe(context.Background())
+	sb := miniapp.GetSubscribe()
 	err := sb.Send(msg)
 	fmt.Print(err)
 }

@@ -1,16 +1,13 @@
-package wechat_test
+package miniProgram_test
 
 import (
-	"context"
 	"fmt"
 	"testing"
-
-	wechat "github.com/baiyeth/wechat/miniprogram"
 )
 
 func TestCode2Session(t *testing.T) {
 	t.Parallel()
-	au := wechat.NewAuth(context.Background())
+	au := miniapp.GetAuth()
 	res, err := au.Code2Session("")
 	fmt.Print(res, err)
 }
