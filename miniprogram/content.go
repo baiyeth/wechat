@@ -1,12 +1,25 @@
 package wechat
 
-func CheckText(text string, appid, appSecret string) (err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetContentSecurity().CheckText(text)
+import (
+	"context"
+)
+
+// Content 微信小程序相关API
+type Content struct {
+	MiniProgram
 }
 
-func CheckImage(media string, appid, appSecret string) (err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	context := miniprogram.GetContentSecurity()
+func NewContent(ctx context.Context) *Content {
+	return &Content{
+		NewMiniProgram(ctx),
+	}
+}
+
+func (c *Content) CheckText(text string) (err error) {
+	return c.GetMp().GetContentSecurity().CheckText(text)
+}
+
+func (c *Content) CheckImage(media string) (err error) {
+	context := c.GetMp().GetContentSecurity()
 	return context.CheckImage(media)
 }

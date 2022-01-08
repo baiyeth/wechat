@@ -1,6 +1,7 @@
 package wechat_test
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -9,11 +10,10 @@ import (
 
 func TestGetWeRunData(t *testing.T) {
 	t.Parallel()
-	appid := ""
-	appSecret := ""
 	sessionKey := ""
 	encryptedData := ""
 	iv := ""
-	data, err := wechat.GetWeRunData(sessionKey, encryptedData, iv, appid, appSecret)
+	wr := wechat.NewWerun(context.Background())
+	data, err := wr.GetWeRunData(sessionKey, encryptedData, iv)
 	fmt.Print(data, err)
 }

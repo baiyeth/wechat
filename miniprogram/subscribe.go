@@ -1,10 +1,22 @@
 package wechat
 
 import (
+	"context"
+
 	"github.com/silenceper/wechat/v2/miniprogram/subscribe"
 )
 
-func Send(msg *subscribe.Message, appid, appSecret string) (err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetSubscribe().Send(msg)
+// Subscribe 微信小程序相关API
+type Subscribe struct {
+	MiniProgram
+}
+
+func NewSubscribe(ctx context.Context) *Subscribe {
+	return &Subscribe{
+		NewMiniProgram(ctx),
+	}
+}
+
+func (sb *Subscribe) Send(msg *subscribe.Message) (err error) {
+	return sb.GetMp().GetSubscribe().Send(msg)
 }

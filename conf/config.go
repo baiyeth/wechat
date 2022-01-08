@@ -44,7 +44,7 @@ var (
 
 const (
 	configType   = "yml"
-	wechatConfig = "conf/wechat.yml"
+	wechatConfig = "../conf/wechat.yml"
 )
 
 // Config 初始化配置文件

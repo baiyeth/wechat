@@ -1,6 +1,7 @@
 package wechat_test
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -19,8 +20,7 @@ func TestSend(t *testing.T) {
 		MiniprogramState: "",
 		Lang:             "",
 	}
-	appid := ""
-	appSecret := ""
-	err := wechat.Send(msg, appid, appSecret)
+	sb := wechat.NewSubscribe(context.Background())
+	err := sb.Send(msg)
 	fmt.Print(err)
 }

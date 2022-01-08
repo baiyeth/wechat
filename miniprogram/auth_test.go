@@ -1,6 +1,7 @@
 package wechat_test
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -9,8 +10,7 @@ import (
 
 func TestCode2Session(t *testing.T) {
 	t.Parallel()
-	appid := ""
-	appSecret := ""
-	res, err := wechat.Code2Session("", appid, appSecret)
+	au := wechat.NewAuth(context.Background())
+	res, err := au.Code2Session("")
 	fmt.Print(res, err)
 }

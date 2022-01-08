@@ -1,10 +1,22 @@
 package wechat
 
 import (
+	"context"
+
 	"github.com/silenceper/wechat/v2/miniprogram/werun"
 )
 
-func GetWeRunData(sessionKey, encryptedData, iv string, appid, appSecret string) (*werun.Data, error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetWeRun().GetWeRunData(sessionKey, encryptedData, iv)
+// Werun 微信小程序相关API
+type Werun struct {
+	MiniProgram
+}
+
+func NewWerun(ctx context.Context) *Werun {
+	return &Werun{
+		NewMiniProgram(ctx),
+	}
+}
+
+func (wr *Werun) GetWeRunData(sessionKey, encryptedData, iv string) (*werun.Data, error) {
+	return wr.GetMp().GetWeRun().GetWeRunData(sessionKey, encryptedData, iv)
 }

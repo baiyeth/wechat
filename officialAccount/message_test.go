@@ -1,6 +1,8 @@
 package wechat_test
 
 import (
+	"context"
+	"fmt"
 	"testing"
 	"time"
 
@@ -35,8 +37,7 @@ func TestSendTplMessage(t *testing.T) {
 	}
 	msg.MiniProgram.AppID = conf.WechatConf.Official.TplMessageCronTask.MiniProgramAppId
 	msg.MiniProgram.PagePath = conf.WechatConf.Official.TplMessageCronTask.MiniProgramPagePath
-	err := wechat.SendTplMessage(&msg)
-	if err != nil {
-		panic(err)
-	}
+	tm := wechat.NewTemplateMessage(context.Background())
+	err := tm.SendTplMessage(&msg)
+	fmt.Println(err)
 }

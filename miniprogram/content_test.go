@@ -1,26 +1,27 @@
 package wechat_test
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
 	wechat "github.com/baiyeth/wechat/miniprogram"
 )
 
+var (
+	content = wechat.NewContent(context.Background())
+)
+
 func TestCheckText(t *testing.T) {
 	t.Parallel()
-	appid := ""
-	appSecret := ""
 	text := ""
-	err := wechat.CheckText(text, appid, appSecret)
+	err := content.CheckText(text)
 	fmt.Print(err)
 }
 
 func TestCheckImage(t *testing.T) {
 	t.Parallel()
-	appid := ""
-	appSecret := ""
-	text := ""
-	err := wechat.CheckImage(text, appid, appSecret)
+	media := ""
+	err := content.CheckImage(media)
 	fmt.Print(err)
 }

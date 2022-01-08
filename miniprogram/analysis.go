@@ -1,55 +1,58 @@
 package wechat
 
 import (
+	"context"
+
 	"github.com/silenceper/wechat/v2/miniprogram/analysis"
 )
 
-func GetAnalysisDailyRetain(beginDate, endDate string, appid, appSecret string) (result analysis.ResAnalysisRetain, err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetAnalysis().GetAnalysisDailyRetain(beginDate, endDate)
+// Analysis 微信小程序相关API
+type Analysis struct {
+	MiniProgram
 }
 
-func GetAnalysisDailySummary(beginDate, endDate string, appid, appSecret string) (result analysis.ResAnalysisDailySummary, err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetAnalysis().GetAnalysisDailySummary(beginDate, endDate)
+func NewAnalysis(ctx context.Context) *Analysis {
+	return &Analysis{
+		NewMiniProgram(ctx),
+	}
 }
 
-func GetAnalysisDailyVisitTrend(beginDate, endDate string, appid, appSecret string) (result analysis.ResAnalysisVisitTrend, err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetAnalysis().GetAnalysisDailyVisitTrend(beginDate, endDate)
+func (a *Analysis) GetAnalysisDailyRetain(beginDate, endDate string) (result analysis.ResAnalysisRetain, err error) {
+	return a.GetMp().GetAnalysis().GetAnalysisDailyRetain(beginDate, endDate)
 }
 
-func GetAnalysisMonthlyRetain(beginDate, endDate string, appid, appSecret string) (result analysis.ResAnalysisRetain, err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetAnalysis().GetAnalysisMonthlyRetain(beginDate, endDate)
+func (a *Analysis) GetAnalysisDailySummary(beginDate, endDate string) (result analysis.ResAnalysisDailySummary, err error) {
+	return a.GetMp().GetAnalysis().GetAnalysisDailySummary(beginDate, endDate)
 }
 
-func GetAnalysisMonthlyVisitTrend(beginDate, endDate string, appid, appSecret string) (result analysis.ResAnalysisVisitTrend, err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetAnalysis().GetAnalysisMonthlyVisitTrend(beginDate, endDate)
+func (a *Analysis) GetAnalysisDailyVisitTrend(beginDate, endDate string) (result analysis.ResAnalysisVisitTrend, err error) {
+	return a.GetMp().GetAnalysis().GetAnalysisDailyVisitTrend(beginDate, endDate)
 }
 
-func GetAnalysisUserPortrait(beginDate, endDate string, appid, appSecret string) (result analysis.ResAnalysisUserPortrait, err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetAnalysis().GetAnalysisUserPortrait(beginDate, endDate)
+func (a *Analysis) GetAnalysisMonthlyRetain(beginDate, endDate string) (result analysis.ResAnalysisRetain, err error) {
+	return a.GetMp().GetAnalysis().GetAnalysisMonthlyRetain(beginDate, endDate)
 }
 
-func GetAnalysisVisitDistribution(beginDate, endDate string, appid, appSecret string) (result analysis.ResAnalysisVisitDistribution, err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetAnalysis().GetAnalysisVisitDistribution(beginDate, endDate)
+func (a *Analysis) GetAnalysisMonthlyVisitTrend(beginDate, endDate string) (result analysis.ResAnalysisVisitTrend, err error) {
+	return a.GetMp().GetAnalysis().GetAnalysisMonthlyVisitTrend(beginDate, endDate)
 }
 
-func GetAnalysisVisitPage(beginDate, endDate string, appid, appSecret string) (result analysis.ResAnalysisVisitPage, err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetAnalysis().GetAnalysisVisitPage(beginDate, endDate)
+func (a *Analysis) GetAnalysisUserPortrait(beginDate, endDate string) (result analysis.ResAnalysisUserPortrait, err error) {
+	return a.GetMp().GetAnalysis().GetAnalysisUserPortrait(beginDate, endDate)
 }
 
-func GetAnalysisWeeklyRetain(beginDate, endDate string, appid, appSecret string) (result analysis.ResAnalysisRetain, err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetAnalysis().GetAnalysisWeeklyRetain(beginDate, endDate)
+func (a *Analysis) GetAnalysisVisitDistribution(beginDate, endDate string) (result analysis.ResAnalysisVisitDistribution, err error) {
+	return a.GetMp().GetAnalysis().GetAnalysisVisitDistribution(beginDate, endDate)
 }
 
-func GetAnalysisWeeklyVisitTrend(beginDate, endDate string, appid, appSecret string) (result analysis.ResAnalysisVisitTrend, err error) {
-	miniprogram := GetMiniProgram(appid, appSecret)
-	return miniprogram.GetAnalysis().GetAnalysisWeeklyVisitTrend(beginDate, endDate)
+func (a *Analysis) GetAnalysisVisitPage(beginDate, endDate string) (result analysis.ResAnalysisVisitPage, err error) {
+	return a.GetMp().GetAnalysis().GetAnalysisVisitPage(beginDate, endDate)
+}
+
+func (a *Analysis) GetAnalysisWeeklyRetain(beginDate, endDate string) (result analysis.ResAnalysisRetain, err error) {
+	return a.GetMp().GetAnalysis().GetAnalysisWeeklyRetain(beginDate, endDate)
+}
+
+func (a *Analysis) GetAnalysisWeeklyVisitTrend(beginDate, endDate string) (result analysis.ResAnalysisVisitTrend, err error) {
+	return a.GetMp().GetAnalysis().GetAnalysisWeeklyVisitTrend(beginDate, endDate)
 }
