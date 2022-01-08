@@ -4,16 +4,18 @@ import (
 	"context"
 
 	"github.com/silenceper/wechat/v2/miniprogram/qrcode"
+	
+	"github.com/baiyeth/wechat"
 )
 
 // Qrcode 微信小程序相关API
 type Qrcode struct {
-	MiniProgram
+	wechat.MiniProgram
 }
 
 func NewQrcode(ctx context.Context) *Qrcode {
 	return &Qrcode{
-		NewMiniProgram(ctx),
+		wechat.NewMiniProgram(ctx),
 	}
 }
 

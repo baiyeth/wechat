@@ -2,16 +2,18 @@ package wechat
 
 import (
 	"context"
+	
+	"github.com/baiyeth/wechat"
 )
 
 // Content 微信小程序相关API
 type Content struct {
-	MiniProgram
+	wechat.MiniProgram
 }
 
 func NewContent(ctx context.Context) *Content {
 	return &Content{
-		NewMiniProgram(ctx),
+		wechat.NewMiniProgram(ctx),
 	}
 }
 

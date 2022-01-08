@@ -17,18 +17,18 @@ var (
 
 func TestCreateWXAQRCode(t *testing.T) {
 	t.Parallel()
-	res, err := qr.CreateWXAQRCode(page, path, w)
-	fmt.Print(res, err)
+	_, err := qr.CreateWXAQRCode(page, path, w)
+	fmt.Print(err)
 }
 
 func TestGetWXACode(t *testing.T) {
 	t.Parallel()
-	res, err := qr.GetWXACode(page, path, w)
-	fmt.Print(res, err)
+	_, err := qr.GetWXACode(page, path, w)
+	fmt.Print(err)
 }
 
 func TestGetWXACodeUnlimit(t *testing.T) {
 	t.Parallel()
-	res, err := qr.GetWXACodeUnlimit(page, path, w)
-	fmt.Print(res, err)
+	_, err := qr.GetWXACodeUnlimit(page, path, w)
+	fmt.Print(err)
 }

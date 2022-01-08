@@ -7,8 +7,6 @@ import (
 	"github.com/silenceper/wechat/v2/cache"
 	"github.com/silenceper/wechat/v2/miniprogram"
 	miniConfig "github.com/silenceper/wechat/v2/miniprogram/config"
-	
-	byWechat "github.com/baiyeth/wechat"
 )
 
 // MiniProgram 微信小程序相关API
@@ -36,8 +34,8 @@ func getMiniProgram() *miniprogram.MiniProgram {
 	wc := wechat.NewWechat()
 	memory := cache.NewMemory()
 	cfg := &miniConfig.Config{
-		AppID:     byWechat.Conf.MiniProgram.AppId,
-		AppSecret: byWechat.Conf.MiniProgram.AppSecret,
+		AppID:     Conf.MiniProgram.AppId,
+		AppSecret: Conf.MiniProgram.AppSecret,
 		Cache:     memory,
 	}
 	return wc.GetMiniProgram(cfg)

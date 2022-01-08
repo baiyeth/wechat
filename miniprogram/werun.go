@@ -4,16 +4,18 @@ import (
 	"context"
 
 	"github.com/silenceper/wechat/v2/miniprogram/werun"
+	
+	"github.com/baiyeth/wechat"
 )
 
 // Werun 微信小程序相关API
 type Werun struct {
-	MiniProgram
+	wechat.MiniProgram
 }
 
 func NewWerun(ctx context.Context) *Werun {
 	return &Werun{
-		NewMiniProgram(ctx),
+		wechat.NewMiniProgram(ctx),
 	}
 }
 

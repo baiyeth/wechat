@@ -7,8 +7,6 @@ import (
 	"github.com/silenceper/wechat/v2/cache"
 	"github.com/silenceper/wechat/v2/officialaccount"
 	"github.com/silenceper/wechat/v2/officialaccount/config"
-	
-	byWechat "github.com/baiyeth/wechat"
 )
 
 type OfficialAccount struct {
@@ -26,14 +24,18 @@ func NewOfficialAccount(ctx context.Context) OfficialAccount {
 	}
 }
 
+func (oc *OfficialAccount )GetOfficialAccount() *officialaccount.OfficialAccount {
+	return oc.oc
+}
+
 // getOfficialAccount 获取公众号配置
 func getOfficialAccount() *officialaccount.OfficialAccount {
 	wc := wechat.NewWechat()
 	cacheIns := cache.NewMemory()
 	cfg := &config.Config{
-		AppID:          byWechat.Conf.Official.AppId,
-		AppSecret:      byWechat.Conf.Official.AppSecret,
-		EncodingAESKey: byWechat.Conf.Official.Encoding,
+		AppID:          Conf.Official.AppId,
+		AppSecret:      Conf.Official.AppSecret,
+		EncodingAESKey: Conf.Official.Encoding,
 		Cache:          cacheIns,
 	}
 	return wc.GetOfficialAccount(cfg)

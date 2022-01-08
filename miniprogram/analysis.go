@@ -4,16 +4,18 @@ import (
 	"context"
 
 	"github.com/silenceper/wechat/v2/miniprogram/analysis"
+	
+	"github.com/baiyeth/wechat"
 )
 
 // Analysis 微信小程序相关API
 type Analysis struct {
-	MiniProgram
+	wechat.MiniProgram
 }
 
 func NewAnalysis(ctx context.Context) *Analysis {
 	return &Analysis{
-		NewMiniProgram(ctx),
+		wechat.NewMiniProgram(ctx),
 	}
 }
 

@@ -4,16 +4,18 @@ import (
 	"context"
 
 	"github.com/silenceper/wechat/v2/miniprogram/auth"
+	
+	"github.com/baiyeth/wechat"
 )
 
 // Auth 微信小程序相关API
 type Auth struct {
-	MiniProgram
+	wechat.MiniProgram
 }
 
 func NewAuth(ctx context.Context) *Auth {
 	return &Auth{
-		NewMiniProgram(ctx),
+		wechat.NewMiniProgram(ctx),
 	}
 }
 

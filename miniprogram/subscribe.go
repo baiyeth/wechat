@@ -4,16 +4,18 @@ import (
 	"context"
 
 	"github.com/silenceper/wechat/v2/miniprogram/subscribe"
+	
+	"github.com/baiyeth/wechat"
 )
 
 // Subscribe 微信小程序相关API
 type Subscribe struct {
-	MiniProgram
+	wechat.MiniProgram
 }
 
 func NewSubscribe(ctx context.Context) *Subscribe {
 	return &Subscribe{
-		NewMiniProgram(ctx),
+		wechat.NewMiniProgram(ctx),
 	}
 }
 
