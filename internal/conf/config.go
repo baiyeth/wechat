@@ -1,4 +1,4 @@
-package wechat
+package conf
 
 import (
 	"bytes"
@@ -46,26 +46,8 @@ const (
 	configType = "yml"
 )
 
-// InitConfig 初始化配置文件
-func InitConfig(wechatConfig string) Configuration {
-	var conf Configuration
+func LoadConfig(configFile string) Configuration {
 	v := viper.New()
-	readConfig(v, wechatConfig)
-	// 将default中的配置全部以默认配置写入
-	settings := v.AllSettings()
-	for index, setting := range settings {
-		v.SetDefault(index, setting)
-	}
-	// 转换为结构体
-	if err := v.Unmarshal(&conf); err != nil {
-		panic(fmt.Sprintf("初始化配置文件失败: %v, wechat configure: %s", err, Conf))
-	}
-
-	fmt.Println("初始化配置文件完成, wechat configure: ", conf)
-	return conf
-}
-
-func readConfig(v *viper.Viper, configFile string) {
 	v.SetConfigType(configType)
 	config, err := ioutil.ReadFile(configFile)
 	if err != nil {
@@ -75,4 +57,16 @@ func readConfig(v *viper.Viper, configFile string) {
 	if err = v.ReadConfig(bytes.NewReader(config)); err != nil {
 		panic(fmt.Sprintf("加载配置文件失败: %v, wechat configure: %s", err, configFile))
 	}
+
+	// 将default中的配置全部以默认配置写入
+	settings := v.AllSettings()
+	for index, setting := range settings {
+		v.SetDefault(index, setting)
+	}
+	// 转换为结构体
+	if err := v.Unmarshal(&Conf); err != nil {
+		panic(fmt.Sprintf("初始化配置文件失败: %v, wechat configure: %s", err, Conf))
+	}
+	fmt.Println("初始化配置文件完成, wechat configure: ", Conf)
+	return Conf
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/baiyeth/wechat"
 	"github.com/baiyeth/wechat/miniProgram"
 )
 
@@ -13,6 +14,8 @@ var (
 )
 
 func Test(t *testing.T) {
-	miniapp = miniProgram.NewMiniProgram(context.Background(), "../conf/wechat.yml")
+	ctx := context.Background()
+	wc := wechat.NewWechat(ctx, "../internal/conf/wechat.yml")
+	miniapp = wc.GetMiniProgram(ctx)
 	fmt.Println(miniapp)
 }

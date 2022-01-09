@@ -8,28 +8,22 @@ import (
 	"github.com/silenceper/wechat/v2/miniprogram"
 	miniConfig "github.com/silenceper/wechat/v2/miniprogram/config"
 
-	wechat2 "github.com/baiyeth/wechat"
+	"github.com/baiyeth/wechat/internal/conf"
 )
 
 // MiniProgram 微信小程序相关API
 type MiniProgram struct {
 	mp  *miniprogram.MiniProgram
 	ctx context.Context
-	cfg wechat2.Configuration
 }
 
-func NewMiniProgram(ctx context.Context, cfgFile string) MiniProgram {
+func NewMiniProgram(ctx context.Context, wc *wechat.Wechat) MiniProgram {
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	if cfgFile == "" {
-		panic("invalid cfg file path")
-	}
-	conf := wechat2.InitConfig(cfgFile)
 	return MiniProgram{
-		mp:  getMiniProgram(cfgFile),
+		mp:  getMiniProgram(wc),
 		ctx: ctx,
-		cfg: conf,
 	}
 }
 
@@ -62,12 +56,11 @@ func (mp *MiniProgram) GetWerun() *Werun {
 }
 
 // getMiniProgram 获取小程序实例
-func getMiniProgram(cfgFile string) *miniprogram.MiniProgram {
-	wc := wechat.NewWechat()
+func getMiniProgram(wc *wechat.Wechat) *miniprogram.MiniProgram {
 	memory := cache.NewMemory()
 	cfg := &miniConfig.Config{
-		AppID:     wechat2.Conf.MiniProgram.AppId,
-		AppSecret: wechat2.Conf.MiniProgram.AppSecret,
+		AppID:     conf.Conf.MiniProgram.AppId,
+		AppSecret: conf.Conf.MiniProgram.AppSecret,
 		Cache:     memory,
 	}
 	return wc.GetMiniProgram(cfg)

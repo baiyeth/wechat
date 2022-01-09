@@ -8,36 +8,39 @@ import (
 	"github.com/silenceper/wechat/v2/officialaccount"
 	"github.com/silenceper/wechat/v2/officialaccount/config"
 
-	wechat2 "github.com/baiyeth/wechat"
+	"github.com/baiyeth/wechat/internal/conf"
 )
 
 type OfficialAccount struct {
-	oc  *officialaccount.OfficialAccount
+	oa  *officialaccount.OfficialAccount
 	ctx *context.Context
 }
 
-func NewOfficialAccount(ctx context.Context) OfficialAccount {
+func NewOfficialAccount(ctx context.Context, wc *wechat.Wechat) OfficialAccount {
 	if ctx == nil {
 		ctx = context.Background()
 	}
 	return OfficialAccount{
-		oc:  getOfficialAccount(),
+		oa:  getOfficialAccount(wc),
 		ctx: &ctx,
 	}
 }
 
-func (oc *OfficialAccount) GetOfficialAccount() *officialaccount.OfficialAccount {
-	return oc.oc
+func (oa *OfficialAccount) GetOa() *officialaccount.OfficialAccount {
+	return oa.oa
+}
+
+func (oa *OfficialAccount) GetTemplateMessage() *TemplateMessage {
+	return NewTemplateMessage(oa)
 }
 
 // getOfficialAccount 获取公众号配置
-func getOfficialAccount() *officialaccount.OfficialAccount {
-	wc := wechat.NewWechat()
+func getOfficialAccount(wc *wechat.Wechat) *officialaccount.OfficialAccount {
 	cacheIns := cache.NewMemory()
 	cfg := &config.Config{
-		AppID:          wechat2.Conf.Official.AppId,
-		AppSecret:      wechat2.Conf.Official.AppSecret,
-		EncodingAESKey: wechat2.Conf.Official.Encoding,
+		AppID:          conf.Conf.Official.AppId,
+		AppSecret:      conf.Conf.Official.AppSecret,
+		EncodingAESKey: conf.Conf.Official.Encoding,
 		Cache:          cacheIns,
 	}
 	return wc.GetOfficialAccount(cfg)
