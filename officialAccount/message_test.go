@@ -6,15 +6,13 @@ import (
 	"time"
 
 	"github.com/silenceper/wechat/v2/officialaccount/message"
-
-	"github.com/baiyeth/wechat/internal/conf"
 )
 
 func TestSendTplMessage(t *testing.T) {
 	t.Parallel()
 	msg := message.TemplateMessage{
 		ToUser:     "xxx",
-		TemplateID: conf.Conf.Official.TplMessageCronTask.TemplateId,
+		TemplateID: "tmp-1",
 		Data: map[string]*message.TemplateDataItem{
 			"first": {
 				Value: "日常事项定时提醒",
@@ -33,9 +31,8 @@ func TestSendTplMessage(t *testing.T) {
 			},
 		},
 	}
-	msg.MiniProgram.AppID = conf.Conf.Official.TplMessageCronTask.MiniProgramAppId
-	msg.MiniProgram.PagePath = conf.Conf.Official.TplMessageCronTask.MiniProgramPagePath
-
+	msg.MiniProgram.AppID = "test-appid"
+	msg.MiniProgram.PagePath = "test-pagePath"
 	tm := offAcc.GetTemplateMessage()
 	err := tm.SendTplMessage(&msg)
 	fmt.Println(err)

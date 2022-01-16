@@ -11,29 +11,74 @@ import (
 )
 
 type wechat struct {
-	cfgPath string
-	ctx     context.Context
-	wc      *wechat2.Wechat
-	cfg     conf.Configuration
+	ctx context.Context
+	wc  *wechat2.Wechat
+	cfg conf.Configuration
 }
 
-func NewWechat(ctx context.Context, cfgPath string) *wechat {
-	return &wechat{
-		cfgPath: cfgPath,
-		ctx:     ctx,
-		wc:      wechat2.NewWechat(),
-		cfg:     conf.LoadConfig(cfgPath),
+type Option func(*wechat)
+
+func WithConfiguration(cfg conf.Configuration) Option {
+	return func(m *wechat) {
+		m.cfg = cfg
 	}
 }
 
-func (w *wechat) GetMiniProgram(ctx context.Context) miniProgram.MiniProgram {
-	return miniProgram.NewMiniProgram(ctx, w.wc)
+func WithOfficialTplMessage(Expr, Users, TemplateId, MiniProgramAppId, MiniProgramPagePath string) Option {
+	return func(m *wechat) {
+		m.cfg.Official.TplMessage.Expr = Expr
+		m.cfg.Official.TplMessage.Users = Users
+		m.cfg.Official.TplMessage.TemplateId = TemplateId
+		m.cfg.Official.TplMessage.MiniProgramAppId = MiniProgramAppId
+		m.cfg.Official.TplMessage.MiniProgramPagePath = MiniProgramPagePath
+	}
 }
 
-func (w *wechat) GetOfficialAccount(ctx context.Context) officialAccount.OfficialAccount {
-	return officialAccount.NewOfficialAccount(ctx, w.wc)
+func WithAuth(AppId, AppSecret string) Option {
+	return func(m *wechat) {
+		m.cfg.Official = conf.OfficialConfiguration{
+			AppId:     AppId,
+			AppSecret: AppSecret,
+		}
+		m.cfg.MiniProgram = conf.MiniProgramConfiguration{
+			AppId:     AppId,
+			AppSecret: AppSecret,
+		}
+	}
+}
+
+func NewWechat(ctx context.Context, opts ...Option) wechat {
+	w := wechat{
+		ctx: ctx,
+		wc:  wechat2.NewWechat(),
+		cfg: conf.Configuration{},
+	}
+	for _, o := range opts {
+		o(&w)
+	}
+	return w
+}
+
+func NewDefaultWechat(ctx context.Context, AppId, AppSecret string) wechat {
+	return NewWechat(ctx, WithAuth(AppId, AppSecret))
+}
+
+func (w *wechat) GetMiniProgram() miniProgram.MiniProgram {
+	return w.getMiniProgram(w.cfg.MiniProgram.AppId, w.cfg.MiniProgram.AppSecret)
+}
+
+func (w *wechat) GetOfficialAccount() officialAccount.OfficialAccount {
+	return w.getOfficialAccount(w.cfg.Official.AppId, w.cfg.Official.AppSecret)
 }
 
 func (w *wechat) GetCfg() conf.Configuration {
 	return w.cfg
+}
+
+func (w *wechat) getMiniProgram(AppId, AppSecret string) miniProgram.MiniProgram {
+	return miniProgram.NewDefaultMiniProgram(w.ctx, w.wc, AppId, AppSecret)
+}
+
+func (w *wechat) getOfficialAccount(AppId, AppSecret string) officialAccount.OfficialAccount {
+	return officialAccount.NewOfficialAccount(w.ctx, w.wc, officialAccount.WithOfficialAccountAuth(AppId, AppSecret))
 }

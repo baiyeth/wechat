@@ -15,7 +15,11 @@ var (
 
 func Test(t *testing.T) {
 	ctx := context.Background()
-	wc := wechat.NewWechat(ctx, "../internal/conf/wechat.yml")
-	miniapp = wc.GetMiniProgram(ctx)
+	var (
+		AppId     = "test-AppId"
+		AppSecret = "test-AppSecret"
+	)
+	wc := wechat.NewWechat(ctx, wechat.WithAuth(AppId, AppSecret))
+	miniapp = wc.GetMiniProgram()
 	fmt.Println(miniapp)
 }

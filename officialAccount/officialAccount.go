@@ -13,17 +13,48 @@ import (
 
 type OfficialAccount struct {
 	oa  *officialaccount.OfficialAccount
-	ctx *context.Context
+	ctx context.Context
+	cfg conf.OfficialConfiguration
 }
 
-func NewOfficialAccount(ctx context.Context, wc *wechat.Wechat) OfficialAccount {
+type Option func(*OfficialAccount)
+
+func WithOfficialAccountAuth(AppId, AppSecret string) Option {
+	return func(o* OfficialAccount) {
+		o.cfg = conf.OfficialConfiguration{
+			AppId:     AppId,
+			AppSecret: AppSecret,
+		}
+	}
+}
+
+func WithOfficialTplMessage(Expr, Users, TemplateId, MiniProgramAppId, MiniProgramPagePath string) Option {
+	return func(o* OfficialAccount) {
+		o.cfg.TplMessage.Expr = Expr
+		o.cfg.TplMessage.Users = Users
+		o.cfg.TplMessage.TemplateId = TemplateId
+		o.cfg.TplMessage.MiniProgramAppId = MiniProgramAppId
+		o.cfg.TplMessage.MiniProgramPagePath = MiniProgramPagePath
+	}
+}
+
+func NewOfficialAccount(ctx context.Context, wc *wechat.Wechat, opts ...Option) OfficialAccount {
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	return OfficialAccount{
-		oa:  getOfficialAccount(wc),
-		ctx: &ctx,
+	officialAccount := OfficialAccount{
+		ctx: ctx,
+		cfg: conf.OfficialConfiguration{},
 	}
+	for _, o := range opts {
+		o(&officialAccount)
+	}
+	officialAccount.oa = officialAccount.getOfficialAccount(wc)
+	return officialAccount
+}
+
+func NewDefaultOfficialAccount(ctx context.Context, wc *wechat.Wechat, AppId, AppSecret string) OfficialAccount {
+	return NewOfficialAccount(ctx, wc, WithOfficialAccountAuth(AppId, AppSecret))
 }
 
 func (oa *OfficialAccount) GetOa() *officialaccount.OfficialAccount {
@@ -35,13 +66,13 @@ func (oa *OfficialAccount) GetTemplateMessage() *TemplateMessage {
 }
 
 // getOfficialAccount 获取公众号配置
-func getOfficialAccount(wc *wechat.Wechat) *officialaccount.OfficialAccount {
+func (oa *OfficialAccount) getOfficialAccount(wc *wechat.Wechat) *officialaccount.OfficialAccount {
 	cacheIns := cache.NewMemory()
-	cfg := &config.Config{
-		AppID:          conf.Conf.Official.AppId,
-		AppSecret:      conf.Conf.Official.AppSecret,
-		EncodingAESKey: conf.Conf.Official.Encoding,
+	wcfg := &config.Config{
+		AppID:          oa.cfg.AppId,
+		AppSecret:      oa.cfg.AppSecret,
+		EncodingAESKey: oa.cfg.Encoding,
 		Cache:          cacheIns,
 	}
-	return wc.GetOfficialAccount(cfg)
+	return wc.GetOfficialAccount(wcfg)
 }

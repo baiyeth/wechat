@@ -15,7 +15,11 @@ var (
 
 func Test(t *testing.T) {
 	ctx := context.Background()
-	wc := wechat.NewWechat(ctx, "../internal/conf/wechat.yml")
-	offAcc = wc.GetOfficialAccount(ctx)
+	var (
+		AppId     = "test-AppId"
+		AppSecret = "test-AppSecret"
+	)
+	wc := wechat.NewDefaultWechat(ctx, AppId, AppSecret)
+	offAcc = wc.GetOfficialAccount()
 	fmt.Println(offAcc)
 }

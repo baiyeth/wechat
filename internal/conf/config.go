@@ -16,14 +16,14 @@ type Configuration struct {
 
 //OfficialConfiguration ...
 type OfficialConfiguration struct {
-	AppId              string                                  `mapstructure:"app-id" json:"appId"`
-	AppSecret          string                                  `mapstructure:"app-secret" json:"appSecret"`
-	Encoding           string                                  `mapstructure:"encoding" json:"encoding"`
-	TplMessageCronTask OfficialTplMessageCronTaskConfiguration `mapstructure:"tpl-message-cron-task" json:"tplMessageCronTask"`
+	AppId      string                          `mapstructure:"app-id" json:"appId"`
+	AppSecret  string                          `mapstructure:"app-secret" json:"appSecret"`
+	Encoding   string                          `mapstructure:"encoding" json:"encoding"`
+	TplMessage OfficialTplMessageConfiguration `mapstructure:"tpl-message-cron-task" json:"tplMessageCronTask"`
 }
 
-//OfficialTplMessageCronTaskConfiguration ...
-type OfficialTplMessageCronTaskConfiguration struct {
+//OfficialTplMessageConfiguration ...
+type OfficialTplMessageConfiguration struct {
 	Expr                string `mapstructure:"expr" json:"expr"`
 	Users               string `mapstructure:"users" json:"users"`
 	TemplateId          string `mapstructure:"template-id" json:"templateId"`
@@ -37,10 +37,6 @@ type MiniProgramConfiguration struct {
 	AppSecret string `mapstructure:"app-secret" json:"appSecret"`
 	Encoding  string `mapstructure:"encoding" json:"encoding"`
 }
-
-var (
-	Conf Configuration
-)
 
 const (
 	configType = "yml"
@@ -64,6 +60,7 @@ func LoadConfig(configFile string) Configuration {
 		v.SetDefault(index, setting)
 	}
 	// 转换为结构体
+	var Conf Configuration
 	if err := v.Unmarshal(&Conf); err != nil {
 		panic(fmt.Sprintf("初始化配置文件失败: %v, wechat configure: %s", err, Conf))
 	}

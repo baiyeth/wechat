@@ -15,16 +15,37 @@ import (
 type MiniProgram struct {
 	mp  *miniprogram.MiniProgram
 	ctx context.Context
+	cfg conf.MiniProgramConfiguration
 }
 
-func NewMiniProgram(ctx context.Context, wc *wechat.Wechat) MiniProgram {
+type Option func(*MiniProgram)
+
+func WithMiniProgramAuth(AppId, AppSecret string) Option {
+	return func(m *MiniProgram) {
+		m.cfg = conf.MiniProgramConfiguration{
+			AppId:     AppId,
+			AppSecret: AppSecret,
+		}
+	}
+}
+
+func NewMiniProgram(ctx context.Context, wc *wechat.Wechat, opts ...Option) MiniProgram {
 	if ctx == nil {
 		ctx = context.Background()
 	}
-	return MiniProgram{
-		mp:  getMiniProgram(wc),
+	miniApp := MiniProgram{
 		ctx: ctx,
+		cfg: conf.MiniProgramConfiguration{},
 	}
+	for _, o := range opts {
+		o(&miniApp)
+	}
+	miniApp.mp = miniApp.getMiniProgram(wc)
+	return miniApp
+}
+
+func NewDefaultMiniProgram(ctx context.Context, wc *wechat.Wechat, AppId, AppSecret string) MiniProgram {
+	return NewMiniProgram(ctx, wc, WithMiniProgramAuth(AppId, AppSecret))
 }
 
 func (mp *MiniProgram) GetMp() *miniprogram.MiniProgram {
@@ -56,12 +77,15 @@ func (mp *MiniProgram) GetWerun() *Werun {
 }
 
 // getMiniProgram 获取小程序实例
-func getMiniProgram(wc *wechat.Wechat) *miniprogram.MiniProgram {
+func (mp *MiniProgram) getMiniProgram(wc *wechat.Wechat) *miniprogram.MiniProgram {
+	if mp.cfg.AppId == "" || mp.cfg.AppSecret == "" {
+		panic("invalid AppId or AppSecret")
+	}
 	memory := cache.NewMemory()
-	cfg := &miniConfig.Config{
-		AppID:     conf.Conf.MiniProgram.AppId,
-		AppSecret: conf.Conf.MiniProgram.AppSecret,
+	wcfg := &miniConfig.Config{
+		AppID:     mp.cfg.AppId,
+		AppSecret: mp.cfg.AppSecret,
 		Cache:     memory,
 	}
-	return wc.GetMiniProgram(cfg)
+	return wc.GetMiniProgram(wcfg)
 }
