@@ -12,6 +12,7 @@ import (
 type Configuration struct {
 	Official    OfficialConfiguration    `mapstructure:"official" json:"official"`
 	MiniProgram MiniProgramConfiguration `mapstructure:"miniprogram" json:"miniprogram"`
+	Pay         PayConfiguration         `mapstructure:"pay" json:"pay"`
 }
 
 //OfficialConfiguration ...
@@ -36,6 +37,15 @@ type MiniProgramConfiguration struct {
 	AppId     string `mapstructure:"app-id" json:"appId"`
 	AppSecret string `mapstructure:"app-secret" json:"appSecret"`
 	Encoding  string `mapstructure:"encoding" json:"encoding"`
+}
+
+//PayConfiguration ...
+type PayConfiguration struct {
+	AppId     string `mapstructure:"app-id" json:"appId"`
+	AppSecret string `mapstructure:"app-secret" json:"appSecret"`
+	MchID     string `mapstructure:"mch-id" json:"mchId"`
+	Key       string `mapstructure:"key" json:"key"`
+	NotifyURL string `mapstructure:"notify-url" json:"notifyUrl"`
 }
 
 const (
