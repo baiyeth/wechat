@@ -8,6 +8,7 @@ import (
 	"github.com/baiyeth/wechat/internal/conf"
 	"github.com/baiyeth/wechat/miniProgram"
 	"github.com/baiyeth/wechat/officialAccount"
+	"github.com/baiyeth/wechat/pay"
 )
 
 type wechat struct {
@@ -47,6 +48,18 @@ func WithAuth(AppId, AppSecret string) Option {
 	}
 }
 
+func WithPayConfig(appId, appSecret, mchId, key, notifyUrl string) Option {
+	return func(m *wechat) {
+		m.cfg.Pay = conf.PayConfiguration{
+			AppId:     appId,
+			AppSecret: appSecret,
+			MchID:     mchId,
+			Key:       key,
+			NotifyURL: notifyUrl,
+		}
+	}
+}
+
 func NewWechat(ctx context.Context, opts ...Option) wechat {
 	w := wechat{
 		ctx: ctx,
@@ -71,6 +84,15 @@ func (w *wechat) GetOfficialAccount() officialAccount.OfficialAccount {
 	return w.getOfficialAccount(w.cfg.Official.AppId, w.cfg.Official.AppSecret)
 }
 
+func (w *wechat) GetPay() pay.Pay {
+	return w.getPay(pay.Config{
+		AppID:     w.cfg.Pay.AppId,
+		MchID:     w.cfg.Pay.MchID,
+		Key:       w.cfg.Pay.Key,
+		NotifyURL: w.cfg.Pay.NotifyURL,
+	})
+}
+
 func (w *wechat) GetCfg() conf.Configuration {
 	return w.cfg
 }
@@ -81,4 +103,8 @@ func (w *wechat) getMiniProgram(AppId, AppSecret string) miniProgram.MiniProgram
 
 func (w *wechat) getOfficialAccount(AppId, AppSecret string) officialAccount.OfficialAccount {
 	return officialAccount.NewOfficialAccount(w.ctx, w.wc, officialAccount.WithOfficialAccountAuth(AppId, AppSecret))
+}
+
+func (w *wechat) getPay(cfg pay.Config) pay.Pay {
+	return pay.NewPay(w.ctx, w.wc, pay.WithPayConfig(cfg.AppID, cfg.MchID, cfg.Key, cfg.NotifyURL))
 }
